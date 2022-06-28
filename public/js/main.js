@@ -1,5 +1,6 @@
 import SpriteSheet from './SpriteSheet.js'
 import { loadImage, loadLevel } from './loaders.js'
+import {loadBackgroundSprites,loadMarioSprites} from './sprites.js'
 
 function drawBackground(background, context, sprites ) {
   background.ranges.forEach(([x1, x2, y1, y2]) => {
@@ -11,24 +12,6 @@ function drawBackground(background, context, sprites ) {
   })
 }
 
-function loadBackgroundSprites() {
-  return loadImage('/img/tiles.png')
-    .then(image => {
-      const sprites = new SpriteSheet(image, 16, 16)
-      sprites.define('ground', 0, 0)
-      sprites.define('sky', 3, 23)
-      return sprites
-    })
-}
-
-function loadMarioSprites() {
-  return loadImage('/img/characters.gif')
-    .then(image => {
-      const sprites = new SpriteSheet(image, 16, 16)
-      sprites.define('idle', 16, 3)
-      return sprites
-    })
-}
 
 const canvas = document.getElementById('screen')
 const context = canvas.getContext('2d')
@@ -42,6 +25,10 @@ Promise.all([
     level.backgrounds.forEach(background => {
       drawBackground(background, context, sprites)
     })
-    marioSprite.draw('idle', context, 64,64)
+    const pos = {
+      x:164,
+      y:164
+    }
+    marioSprite.draw('idle', context, pos.x, pos.y)
 }) 
   
