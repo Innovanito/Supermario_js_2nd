@@ -1,20 +1,33 @@
 import Compositor from './Compositor.js'
-import { loadImage, loadLevel } from './loaders.js'
+import { loadLevel } from './loaders.js'
 import {loadBackgroundSprites,loadMarioSprites} from './sprites.js'
 import {createBackgroundLayer} from './layers.js'
-
-
 
 const canvas = document.getElementById('screen')
 const context = canvas.getContext('2d')
 
-
-
-function createSpriteLayer(sprite, pos) {
+function createSpriteLayer(entity) {
   return function drawSpriteLayer(context) {
-    for (let i = 0; i < 20; ++i) {
-      sprite.draw('idle', context, pos.x + i * 16, pos.y)
-    }
+    entity.draw(context)
+  }
+}
+
+class Vec2 {
+  constructor(x, y) {
+    this.set(x,y)
+  }
+
+  set(x, y) {
+    this.x = x
+    this.y = y
+  }
+}
+
+class Entity {
+  constructor() {
+    this.pos = new Vec2(0,0)
+    this.vel = new Vec2(0,0)
+
   }
 }
 
@@ -29,19 +42,29 @@ Promise.all([
     const backgroundLayer = createBackgroundLayer(level.backgrounds, backgroundSprites)
     comp.layers.push(backgroundLayer)
 
-    const pos = {
-      x:0,
-      y:0
+    const gravity = 0.5
+
+    const mario = new Entity()
+    mario.pos.set(64, 180)
+    mario.vel.set(2, -10)
+
+    mario.draw = function drawMario(context) {
+      marioSprite.draw('idle', context, this.pos.x , this.pos.y) 
+    }
+
+    mario.update = function updateMario() {
+      this.pos.x += this.vel.x
+      this.pos.y += this.vel.y
     }
     
-    const spriteLayer = createSpriteLayer(marioSprite, pos)
+    const spriteLayer = createSpriteLayer(mario)
     comp.layers.push(spriteLayer)
 
     function update() {
       comp.draw(context)
-      marioSprite.draw('idle', context, pos.x, pos.y)
-      pos.x +=2
-      pos.y +=2
+      marioSprite.draw('idle', context, mario.pos.x, mario.pos.y)
+      mario.update()
+      mario.vel.y += gravity
       requestAnimationFrame(update)
     }
 
