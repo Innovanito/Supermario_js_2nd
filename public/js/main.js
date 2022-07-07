@@ -33,7 +33,7 @@ Promise.all([
       console.log(deltaTime ,time);
       
       comp.draw(context)
-      mario.update()
+      mario.update(deltaTime)
       mario.vel.y += gravity
       requestAnimationFrame(update)
       // setTimeout(update, 1000/60)
