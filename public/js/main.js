@@ -20,27 +20,30 @@ Promise.all([
     const backgroundLayer = createBackgroundLayer(level.backgrounds, backgroundSprites)
     // comp.layers.push(backgroundLayer)
 
-    const gravity = 0.5
+    const gravity = 30
+
+    mario.pos.set(64, 180) 
+    mario.vel.set(200, -600)
 
     const spriteLayer = createSpriteLayer(mario)
     comp.layers.push(spriteLayer)
 
     let deltaTime = 0
     let lastTime = 0
-
+ 
     function update(time) {
-      deltaTime = time - lastTime
-      console.log(deltaTime ,time);
-      
+      deltaTime = (time - lastTime) / 1000
+      console.log(deltaTime);
+
       comp.draw(context)
       mario.update(deltaTime)
       mario.vel.y += gravity
       requestAnimationFrame(update)
-      // setTimeout(update, 1000/60)
+      // setTimeout(update, 1000/10)
 
       lastTime = time
     }
 
-    update()
+    update(0)
 }) 
   
