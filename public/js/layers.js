@@ -23,7 +23,7 @@ export function createBackgroundLayer(backgrounds, sprites) {
 }
 
 export function createSpriteLayer(entity) {
-  return function drawSpriteLayer(context) {
+  return function SpriteLayer(context) {
     entity.draw(context)
   }
 }
