@@ -19,3 +19,13 @@ export default class Level {
     })
   }
 } 
+
+function createCollisionLayer(level) {
+  const tileResolver = level.tileCollider.tiles
+  const tileSize = tileResolver.tileSize
+
+  const getByIndexOriginal = tileResolver.getByIndex
+  tileResolver.getByIndex = function getByIndexFake(x, y) {
+    return getByIndexOriginal
+  }
+}
