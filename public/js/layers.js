@@ -21,3 +21,28 @@ export function createSpriteLayer(entities) {
     })
   }
 }
+
+export function createCollisionLayer(level) {
+  const resolvedTiles = []
+
+  const tileResolver = level.tileCollider.tiles
+  const tileSize = tileResolver.tileSize
+
+  const getByIndexOriginal = tileResolver.getByIndex
+  tileResolver.getByIndex = function getByIndexFake(x, y) {
+    resolvedTiles.push({ x, y })
+    // console.log({ x, y });
+    // console.log('the value of resolvedtiles', resolvedTiles);
+    return getByIndexOriginal.call(tileResolver,x,y)
+  }
+  console.log('activated');
+
+  return function drawCollision(context) {
+    resolvedTiles.forEach(({ x, y }) => {
+      console.log('would draw',x,y);
+    }) 
+
+    resolvedTiles.length = 0
+  }
+  console.log('activated');
+}

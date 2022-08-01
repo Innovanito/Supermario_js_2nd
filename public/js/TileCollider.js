@@ -6,7 +6,11 @@ export default class TileCollider {
   }
 
   checkY(entity) {
+    // console.log('testing', entity);
     const match = this.tiles.matchByPosition(entity.pos.x, entity.pos.y)
+    if (match) {
+      // console.log('matched tile', match, match.tile);
+    }
     if (!match) {
       return
     }

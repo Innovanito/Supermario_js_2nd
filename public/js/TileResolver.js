@@ -10,6 +10,8 @@ export default class TileResolver {
 
   getByIndex(indexX, indexY) {
     const tile = this.matrix.get(indexX, indexY)
+    const a = this.matrix.get()
+    // console.log(tile);
     if (tile) {
       const y1 = indexY * this.tileSize
       return {
@@ -17,7 +19,7 @@ export default class TileResolver {
         y1
       }
     }
-  }
+  } 
 
   matchByPosition(posX, posY) {
     return this.getByIndex(
@@ -26,3 +28,4 @@ export default class TileResolver {
     )
   }
 }
+
